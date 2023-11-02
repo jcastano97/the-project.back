@@ -13,10 +13,6 @@ import config from '@config/config';
 
 interface IUserToken {
   user: IUser;
-  token: IToken;
-}
-
-interface IToken {
   token: string;
   expiresIn: string;
 }
@@ -40,7 +36,8 @@ const signInWithoutPassword = async (user: IUser): Promise<IUserToken> => {
       config.secretToken,
     );
     return {
-      token: { token, expiresIn: expirationTimeResponse.toString() },
+      token,
+      expiresIn: expirationTimeResponse.toString(),
       user: userExists,
     };
   } catch (err) {
