@@ -19,7 +19,7 @@ const signInUser = async (req: Request, res: Response) => {
   try {
     const user = req.body as IUser;
     const response = await signIn(user);
-    return sendResponse(res, httpStatus.CREATED, 'Created', response);
+    return sendResponse(res, httpStatus.CREATED, 'Success', response);
   } catch (error) {
     logger.error(error);
     return catchError(res, error);

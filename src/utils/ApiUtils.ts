@@ -30,13 +30,13 @@ const sendResponse = (
   res.status(code);
   if (response)
     return res.send({
-      state: false,
+      state: true,
       code: code.toString(),
       message,
       data: response,
     });
   return res.send({
-    state: false,
+    state: true,
     code: code.toString(),
     message,
   });
