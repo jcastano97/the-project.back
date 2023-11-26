@@ -1,6 +1,7 @@
 // TODO: use babel to run it with ES6
 const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.json');
+// eslint-disable-next-line node/no-unpublished-require
 require('dotenv').config({ path: '.env.local' });
 
 module.exports = {

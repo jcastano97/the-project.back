@@ -1,7 +1,8 @@
 import { IUser } from '@components/account/user/user.interface';
 import config from '@config/config';
-// eslint-disable-next-line import/no-extraneous-dependencies
-import axios from 'axios';
+import Mailjet from 'node-mailjet';
+
+const mailjet = Mailjet.apiConnect(config.emailApiKey, config.emailSecretKey);
 
 const clearEmail = (email: string): string => {
   const indexPlusAt = email.indexOf('+');
@@ -9,44 +10,18 @@ const clearEmail = (email: string): string => {
   return email.replace(email.slice(indexPlusAt, indexAt), '');
 };
 
-interface Email {
-  Name?: string;
-  Email: string;
-}
-
-interface SendingEmail {
-  FromEmail: string;
-  FromName: string;
-  Recipients: Email[];
-  Subject: string;
-  'Text-part': string;
-  'Html-part': string;
-}
-
-const sendingEmail: SendingEmail = {
-  FromEmail: config.emailSender,
-  FromName: config.emailSenderName,
-  Recipients: [],
-  Subject: '',
-  'Text-part': '',
-  'Html-part': '',
-};
-
 const sendVerificationEmail = (user: IUser): Promise<any> => {
-  return axios.post(
-    config.emailApiUrl,
-    {
-      ...sendingEmail,
-      Recipients: [
-        {
-          Email: clearEmail(user.email),
-          Name: user.name,
-        },
-      ],
-      Subject: 'Verification Email',
-      'Text-part': `Hello this email is for verificate your email address,
-        please continue with the link (${config.appUrl}/api/account/verify/${user.verified})`,
-      'Html-part': `<html>
+  return mailjet.post('send', { version: 'v3.1' }).request({
+    SandboxMode: 'true',
+    Messages: [
+      {
+        From: [
+          {
+            Email: config.emailSender,
+            Name: config.emailSenderName,
+          },
+        ],
+        HTMLPart: `<html>
         <head></head>
         <body>
             <h1>Hello this email is for verificate your email address,
@@ -54,47 +29,49 @@ const sendVerificationEmail = (user: IUser): Promise<any> => {
             </h1>
         </body>
         </html>`,
-    },
-    {
-      headers: {
-        Authorization: `Basic ${btoa(
-          `${config.emailApiKey}:${config.emailSecretKey}`,
-        )}`,
+        Subject: 'Verification Email',
+        TextPart: 'Hello this email is for verificate your email address',
+        To: [
+          {
+            Email: clearEmail(user.email),
+            Name: user.name,
+          },
+        ],
       },
-    },
-  );
+    ],
+  });
 };
 
 const sendWelcomeEmail = (user: IUser): Promise<any> => {
-  return axios.post(
-    config.emailApiUrl,
-    {
-      ...sendingEmail,
-      Recipients: [
-        {
-          Email: clearEmail(user.email),
-          Name: user.name,
-        },
-      ],
-      Subject: 'Welcome to the project',
-      'Text-part': `Hello, this email is to welcome you to the project,
-            continue with the link (${config.appFrontUrl})`,
-      'Html-part': `<html>
-          <head></head>
-          <body>
-              <h1>Hello, this email is to welcome you to the project,
-              <a href="${config.appFrontUrl}">we hope to see you here often.</a>
-              </h1>
-          </body>
-          </html>`,
-    },
-    {
-      auth: {
-        username: config.emailApiKey,
-        password: config.emailSecretKey,
+  return mailjet.post('send', { version: 'v3.1' }).request({
+    SandboxMode: 'true',
+    Messages: [
+      {
+        From: [
+          {
+            Email: config.emailSender,
+            Name: config.emailSenderName,
+          },
+        ],
+        HTMLPart: `<html>
+        <head></head>
+        <body>
+            <h1>Hello, this email is to welcome you to the project,
+            <a href="${config.appFrontUrl}">we hope to see you here often.</a>
+            </h1>
+        </body>
+        </html>`,
+        Subject: 'Welcome to the project',
+        TextPart: 'Hello, this email is to welcome you to the project',
+        To: [
+          {
+            Email: clearEmail(user.email),
+            Name: user.name,
+          },
+        ],
       },
-    },
-  );
+    ],
+  });
 };
 
 export { sendVerificationEmail, sendWelcomeEmail };

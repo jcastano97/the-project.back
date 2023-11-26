@@ -54,6 +54,7 @@
     "md5": "^2.3.0",
     "mongoose": "^7.0.5",
     "morgan": "^1.10.0",
+    "node-mailjet": "^6.0.4",
     "node-mocks-http": "^1.11.0",
     "path": "^0.12.7",
     "redis": "^4.6.10",

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import protectedByApiKey from '@core/middlewares/apiKey.middleware';
-import AuthMiddleware from 'middlewares/auth.middleware';
+import AuthMiddleware from '@components/common/middlewares/auth.middleware';
 import validation from '@core/middlewares/validate.middleware';
 import {
   signInUser,
