@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import AuthMiddleware from '@components/common/middlewares/auth.middleware';
+import AuthMiddleware from '@middlewares/auth.middleware';
 import validation from '@core/middlewares/validate.middleware';
 import {
   readIdentificationDocument,
@@ -13,25 +13,25 @@ import createValidation from './createIdentificationDocument.validation';
 const router: Router = Router();
 
 router.get(
-  '/user/identificationDocument/',
+  '/account/identificationDocument/',
   [AuthMiddleware],
   readIdentificationDocument,
 );
 
 router.post(
-  '/user/identificationDocument/',
+  '/account/identificationDocument/',
   [AuthMiddleware, validation(createValidation)],
   createIdentificationDocument,
 );
 
 router.put(
-  '/user/identificationDocument/:id',
+  '/account/identificationDocument/:id',
   [AuthMiddleware, validation(createValidation)],
   updateIdentificationDocument,
 );
 
 router.delete(
-  '/user/identificationDocument/:id',
+  '/account/identificationDocument/:id',
   [AuthMiddleware],
   deleteIdentificationDocument,
 );

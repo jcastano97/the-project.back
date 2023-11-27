@@ -4,10 +4,11 @@ import AppError from '@core/utils/appError';
 import logger from '@core/utils/logger';
 import { IIdentificationDocument } from './identificationDocument.interface';
 import { IdentificationDocumentModel } from './identificationDocument.model';
+import { IUser } from '../user/user.interface';
 
 const create = async (
   identificationDocument: IIdentificationDocument,
-): Promise<boolean> => {
+): Promise<IIdentificationDocument> => {
   try {
     const newIdentificationDocument = await IdentificationDocumentModel.create(
       identificationDocument,
@@ -16,7 +17,7 @@ const create = async (
       `Identification Document created: %O`,
       newIdentificationDocument,
     );
-    return true;
+    return newIdentificationDocument;
   } catch (err) {
     logger.error(`Identification Document create err: %O`, err.message);
     throw new AppError(
@@ -38,6 +39,25 @@ const read = async (id: string): Promise<IIdentificationDocument> => {
     throw new AppError(
       httpStatus.BAD_REQUEST,
       `Identification Document not found ${id}`,
+    );
+  }
+};
+
+const readByUser = async (user: IUser): Promise<IIdentificationDocument> => {
+  try {
+    logger.debug(`Sent Identification Document by user ${user._id}`);
+    const identificationDocument = await IdentificationDocumentModel.findOne({
+      user,
+    });
+    return identificationDocument as IIdentificationDocument;
+  } catch (err) {
+    logger.error(
+      `Identification Document by user ${user._id} read err: %O`,
+      err.message,
+    );
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Identification Document not found ${user._id}`,
     );
   }
 };
@@ -77,4 +97,4 @@ const deleteById = async (id: string): Promise<boolean> => {
   return true;
 };
 
-export { create, read, update, deleteById };
+export { create, read, readByUser, update, deleteById };

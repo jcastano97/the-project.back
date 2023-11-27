@@ -1,11 +1,11 @@
-import { MongoIdInterface } from '@components/common/interfaces/mongo/mongoId.interface';
-import { DatetimeRecordInterface } from '@components/common/interfaces/datetimeRecord.interface';
-import { StateType } from '@components/common/types/state.type';
+import { MongoIdInterface } from '@interfaces/common/db/mongoId.interface';
+import { DatetimeRecordInterface } from '@interfaces/common/db/datetimeRecord.interface';
+import { StateRecordType } from '@interfaces/common/db/stateRecord.type';
 import { IUser } from '@components/account/user/user.interface';
 
 export interface IIdentificationDocument extends DatetimeRecordInterface {
-  _id: string | MongoIdInterface;
-  user: IUser;
+  _id?: string | MongoIdInterface;
+  user?: IUser;
   file: string;
-  state: StateType | 'pendingVerification';
+  state: StateRecordType | 'pendingVerification';
 }

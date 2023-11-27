@@ -10,6 +10,8 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { sendVerificationEmail } from 'utils/EmailUtils';
 import config from '@config/config';
+import { JwtUser } from '@interfaces/common/api/jwtUser.interface';
+import { MongoIdInterface } from '@interfaces/common/db/mongoId.interface';
 
 interface IUserToken {
   user: IUser;
@@ -30,9 +32,9 @@ const signInWithoutPassword = async (user: IUser): Promise<IUserToken> => {
     const expirationTimeResponse = new Date(Date.now() + expirationTime);
     const token = jwt.sign(
       {
-        _id: userExists._id.toString(),
+        user: userExists,
         expiresIn: expirationTimeResponse.toString(),
-      },
+      } as JwtUser,
       config.secretToken,
     );
     return {
@@ -118,7 +120,7 @@ const create = async (user: IUser): Promise<boolean> => {
   }
 };
 
-const read = async (id: string): Promise<IUser> => {
+const read = async (id: string | MongoIdInterface): Promise<IUser> => {
   try {
     logger.debug(`Sent user._id ${id}`);
     const user = await UserModel.findOne({ _id: id });

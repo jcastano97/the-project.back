@@ -1,6 +1,6 @@
 import { IUser } from '@components/account/user/user.interface';
-import { MongoIdInterface } from '@components/common/interfaces/mongo/mongoId.interface';
-import { DatetimeRecordInterface } from '@components/common/interfaces/datetimeRecord.interface';
+import { MongoIdInterface } from '@interfaces/common/db/mongoId.interface';
+import { DatetimeRecordInterface } from '@interfaces/common/db/datetimeRecord.interface';
 import { IIdentificationDocument } from '@components/account/identificationDocument/identificationDocument.interface';
 import { IFileSignature } from '@components/feature/digitalSign/fileSignature/fileSignature.interface';
 

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 
 import protectedByApiKey from '@core/middlewares/apiKey.middleware';
-import AuthMiddleware from '@components/common/middlewares/auth.middleware';
+import AuthMiddleware from '@middlewares/auth.middleware';
 import validation from '@core/middlewares/validate.middleware';
 import {
   signInUser,
@@ -31,10 +31,10 @@ router.post(
 router.get('/account/verify/:emailToken', [], verifyEmailUser);
 router.get('/account/info', [AuthMiddleware], infoUser);
 router.put(
-  '/user/:id',
+  '/account/:id',
   [protectedByApiKey, validation(createUserValidation)],
   updateUser,
 );
-router.delete('/user/:id', [protectedByApiKey], deleteUser);
+router.delete('/account/:id', [protectedByApiKey], deleteUser);
 
 export default router;

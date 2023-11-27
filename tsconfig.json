@@ -26,6 +26,9 @@
       "@db": ["./db.ts"],
       "@core/*": ["core/*"],
       "@components/*": ["components/*"],
+      "@interfaces/*": ["interfaces/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@utils/*": ["utils/*"],
       "@config/*": ["config/*"]
     },
     "plugins": [{ "transform": "ts-optchain/transform" }]

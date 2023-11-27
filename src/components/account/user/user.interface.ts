@@ -1,4 +1,4 @@
-import { MongoIdInterface } from '@components/common/interfaces/mongo/mongoId.interface';
+import { MongoIdInterface } from '@interfaces/common/db/mongoId.interface';
 
 export interface IUser {
   _id: string | MongoIdInterface;

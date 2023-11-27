@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import AuthMiddleware from '@components/common/middlewares/auth.middleware';
+import AuthMiddleware from 'middlewares/auth.middleware';
 import validation from '@core/middlewares/validate.middleware';
 import {
   readFileSignature,
